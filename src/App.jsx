@@ -57,7 +57,7 @@ export default function App() {
 	});
 
 	return (
-		<Container className="w-75 mx-auto vh-100">
+		<Container className="w-75 mx-auto">
 			<div className="container pt-5">
 				<h1 className="text-center mb-5">True Cost of Spending</h1>
 
@@ -97,13 +97,16 @@ export default function App() {
 			{price > 0 && (
 				<>
 					<br />
+					<div className="d-flex justify-content-center mt-2">
+						<Button variant="primary" onClick={handleReset}>
+							Reset to check another item!
+						</Button>
+					</div>
+
 					<br />
-					<div className="mt-5 mb-5">
+					<div>
 						<ChartComponent chartData={interestValues} price={price} />
 					</div>
-					<Button variant="primary" onClick={handleReset}>
-						Reset
-					</Button>
 				</>
 			)}
 		</Container>
