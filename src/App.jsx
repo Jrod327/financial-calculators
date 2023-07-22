@@ -47,7 +47,7 @@ export default function App() {
 				<FormComponent onSubmit={handlePriceChange} />
 				{price > 0 && ( // Check if interestValues has data
 					<h2>
-						After 50 years, your purchase of ${price} is worth ${lastAmount}
+						After 50 years, your purchase of ${price} would have been worth ${lastAmount} if you invested it in the S&P 500
 					</h2>
 				)}
 			</div>
