@@ -5,9 +5,14 @@ import ChartComponent from "./ChartComponent";
 export default function App() {
 	const [price, setPrice] = useState(0);
 	const [interestValues, setInterestValues] = useState([]);
+	const [years, setYears] = useState(1);
 
 	function handlePriceChange(newPrice) {
 		setPrice(newPrice);
+	}
+
+	function handleYearsChange(newYears) {
+		setYears(Number(newYears));
 	}
 
 	useEffect(() => {
@@ -20,7 +25,7 @@ export default function App() {
 			let currentPrincipal = price;
 			const currentYear = getCurrentYear();
 
-			for (let year = currentYear; year <= currentYear + 50; year++) {
+			for (let year = currentYear; year <= currentYear + years - 1; year++) {
 				const interest = currentPrincipal * interestRate;
 				currentPrincipal += interest;
 				newInterestValues.push({ year: year, amount: currentPrincipal });
@@ -31,7 +36,7 @@ export default function App() {
 
 		const calculatedInterest = calculateCompoundInterest();
 		setInterestValues(calculatedInterest);
-	}, [price]);
+	}, [price, years]);
 
 	let lastAmount = interestValues[interestValues.length - 1]?.amount;
 
@@ -44,11 +49,23 @@ export default function App() {
 		<>
 			<div>
 				<h1>True Cost</h1>
-				<FormComponent onSubmit={handlePriceChange} />
+				<FormComponent
+					onSubmit={handlePriceChange}
+					onYearsChange={handleYearsChange}
+				/>
 				{price > 0 && ( // Check if interestValues has data
-					<h2>
-						After 50 years, your purchase of ${price} would have been worth ${lastAmount} if you invested it in the S&P 500
-					</h2>
+					<>
+						<h2>
+							After {years} years, your purchase of ${price} would have been
+							worth ${lastAmount} if you invested it in the S&P 500.
+						</h2>
+						<h7>
+							<em>
+								Assuming an average return of 10% annually, which historically
+								is the rate with dividends reinvested
+							</em>
+						</h7>
+					</>
 				)}
 			</div>
 			<div>{/* <ChartComponent chartData={interestValues} /> */}</div>

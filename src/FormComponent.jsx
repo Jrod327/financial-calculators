@@ -2,20 +2,29 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
 
-function FormComponent({ onSubmit }) {
-	const [inputValue, setInputValue] = useState("");
+function FormComponent({ onSubmit, onYearsChange }) {
+	const [priceValue, setPriceValue] = useState("");
+	const [yearsValue, setYearsValue] = useState("");
 
-	function handleChange(e) {
-		setInputValue(e.target.value);
+	function handlePriceChange(e) {
+		setPriceValue(e.target.value);
+	}
+
+	function handleYearsChange(e) {
+		setYearsValue(e.target.value);
 	}
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		const parsedValue = parseFloat(inputValue);
+		const parsedValue = parseFloat(priceValue);
 		if (!isNaN(parsedValue)) {
 			onSubmit(parsedValue);
 		}
-		setInputValue("");
+		if (!isNaN(parseInt(yearsValue))) {
+			onYearsChange(yearsValue);
+		}
+		setYearsValue("");
+		setPriceValue("");
 	}
 
 	return (
@@ -25,8 +34,17 @@ function FormComponent({ onSubmit }) {
 				<Form.Control
 					type="text"
 					placeholder="Enter item's price"
-					value={inputValue}
-					onChange={handleChange}
+					value={priceValue}
+					onChange={handlePriceChange}
+				/>
+			</Form.Group>
+			<Form.Group className="mb-3">
+				<Form.Label>Enter the amount of years you want to check.</Form.Label>
+				<Form.Control
+					type="text"
+					placeholder="Enter amount of years"
+					value={yearsValue}
+					onChange={handleYearsChange}
 				/>
 			</Form.Group>
 			<Button variant="primary" type="submit">
