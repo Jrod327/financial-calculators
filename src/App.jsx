@@ -2,6 +2,7 @@ import FormComponent from "./FormComponent";
 import { useState, useEffect } from "react";
 import ChartComponent from "./ChartComponent";
 import { Container } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 
 export default function App() {
 	const [price, setPrice] = useState(0);
@@ -14,6 +15,10 @@ export default function App() {
 
 	function handleYearsChange(newYears) {
 		setYears(Number(newYears));
+	}
+
+	function handleReset() {
+		setPrice(0);
 	}
 
 	useEffect(() => {
@@ -29,7 +34,10 @@ export default function App() {
 			for (let year = currentYear; year <= currentYear + years - 1; year++) {
 				const interest = currentPrincipal * interestRate;
 				currentPrincipal += interest;
-				newInterestValues.push({ year: year, amount: currentPrincipal });
+				newInterestValues.push({
+					year: year,
+					amount: currentPrincipal.toFixed(2)
+				});
 			}
 			console.log(newInterestValues);
 			return newInterestValues;
@@ -51,11 +59,23 @@ export default function App() {
 	return (
 		<Container className="w-75 mx-auto vh-100">
 			<div className="container pt-5">
-				<h1 className="text-center mb-4">True Cost</h1>
-				<FormComponent
-					onSubmit={handlePriceChange}
-					onYearsChange={handleYearsChange}
-				/>
+				<h1 className="text-center mb-5">True Cost of Spending</h1>
+
+				{price == 0 && (
+					<>
+						<p>
+							<em>
+								If you want to see how much money you're missing out on in the
+								future by spending it on BS today, enter the price of the BS and
+								how many years of investment you want to check.
+							</em>
+						</p>
+						<FormComponent
+							onSubmit={handlePriceChange}
+							onYearsChange={handleYearsChange}
+						/>
+					</>
+				)}
 				{price > 0 && ( // Check if interestValues has data
 					<>
 						<h2 className="mt-5">
@@ -74,9 +94,18 @@ export default function App() {
 					</>
 				)}
 			</div>
-			<div className="mt-4">
-				<ChartComponent chartData={interestValues} />
-			</div>
+			{price > 0 && (
+				<>
+					<br />
+					<br />
+					<div className="mt-5 mb-5">
+						<ChartComponent chartData={interestValues} price={price} />
+					</div>
+					<Button variant="primary" onClick={handleReset}>
+						Reset
+					</Button>
+				</>
+			)}
 		</Container>
 	);
 }

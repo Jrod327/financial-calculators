@@ -30,7 +30,7 @@ ChartJS.register(
 	Filler
 );
 
-export default function ChartComponent({ chartData }) {
+export default function ChartComponent({ chartData, price }) {
 	const getCurrentYear = () => new Date().getFullYear();
 	const labels = chartData.map(item => item.year);
 	const amounts = chartData.map(item => item.amount);
@@ -39,36 +39,79 @@ export default function ChartComponent({ chartData }) {
 	// 	return Math.round(value / nearest) * nearest;
 	// };
 
+	// ... (previous code)
+
 	const maxAmount = Math.max(...amounts);
-	const roundedMaxAmount =
-		Math.ceil(maxAmount > 20000 ? maxAmount / 5000 : maxAmount / 1000) *
-		(maxAmount > 20000 ? 5000 : 1000);
-	const minY = Math.min(0, roundedMaxAmount * 0.9);
-	const maxY =
-		Math.ceil(roundedMaxAmount / (maxAmount > 20000 ? 5000 : 1000)) *
-		(maxAmount > 20000 ? 5000 : 1000);
+	let maxY;
+	if (maxAmount > 20000) {
+		maxY = Math.ceil(maxAmount / 5000) * 5000;
+	} else if (maxAmount >= 1000 && maxAmount <= 19999) {
+		maxY = Math.ceil(maxAmount / 1000) * 1000;
+	} else {
+		maxY = Math.ceil(maxAmount / 100) * 100;
+	}
+
+	// ... (rest of the code)
 
 	const options = {
 		responsive: true,
+		maintainAspectRatio: true,
 		plugins: {
 			legend: {
-				position: "bottom"
+				position: "bottom",
+				labels: {
+					color: "white" // Set the font color for the legend labels
+				}
 			},
 			title: {
-				display: true,
-				text: "True Cost"
+				display: false,
+				text: "True Cost",
+				color: "white"
 			},
 			fill: true
 		},
 		scales: {
 			y: {
-				min: minY,
-				max: maxY
-				// chartData[chartData.length - 1].amount
+				min: price,
+				max: maxY,
+				title: {
+					display: true,
+					text: "Total Value",
+					color: "white" // Set the font color for the y-axis label
+				},
+				ticks: {
+					color: "white" // Set the font color for the y-axis tick labels
+				},
+				grid: {
+					color: "#777"
+				}
+			},
+			y1: {
+				// Add a second y-axis configuration
+				position: "right", // Position it on the right side
+				min: price,
+				max: maxY,
+				ticks: {
+					color: "white" // Set the font color for the y-axis tick labels on the right side
+				},
+				grid: {
+					display: false // Hide gridlines for the second y-axis (optional)
+				},
+				title: {
+					display: true,
+					text: "Total Value", // You can customize the title for the second y-axis if needed
+					color: "white" // Set the font color for the y-axis label on the right side
+				}
 			},
 			x: {
 				min: getCurrentYear(),
-				max: getCurrentYear() + labels.length
+				max: getCurrentYear() + labels.length,
+				ticks: {
+					color: "white" // Set the font color for the x-axis tick labels
+				},
+				grid: {
+					color: "#777"
+				}
 			}
 		}
 	};

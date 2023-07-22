@@ -28,20 +28,20 @@ function FormComponent({ onSubmit, onYearsChange }) {
 	}
 
 	return (
-		<Form onSubmit={handleSubmit}>
+		<Form onSubmit={handleSubmit} className="mt-5">
 			<Form.Group className="mb-3">
-				<Form.Label>Enter the cost of an item you want to buy.</Form.Label>
+				<Form.Label>Enter the cost of an item:</Form.Label>
 				<Form.Control
-					type="text"
+					type="number"
 					placeholder="Enter item's price"
 					value={priceValue}
 					onChange={handlePriceChange}
 				/>
 			</Form.Group>
-			<Form.Group className="mb-3">
-				<Form.Label>Enter the amount of years you want to check.</Form.Label>
+			<Form.Group className="mb-5">
+				<Form.Label>Amount of years to invest:</Form.Label>
 				<Form.Control
-					type="text"
+					type="number"
 					placeholder="Enter amount of years"
 					value={yearsValue}
 					onChange={handleYearsChange}
