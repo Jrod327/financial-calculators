@@ -47,7 +47,7 @@ export default function App() {
 
 	return (
 		<>
-			<div>
+			<div className="container pt-5">
 				<h1>True Cost</h1>
 				<FormComponent
 					onSubmit={handlePriceChange}
@@ -55,14 +55,17 @@ export default function App() {
 				/>
 				{price > 0 && ( // Check if interestValues has data
 					<>
-						<h2>
-							After {years} years, your purchase of ${price} would have been
-							worth ${lastAmount} if you invested it in the S&P 500.
+						<h2 className="mt-5">
+							After <span className="text-info">{years} years</span>, your
+							purchase of <span className="text-danger">${price}</span> would
+							have been worth{" "}
+							<span className="text-success">${lastAmount}</span> if you
+							invested it in the S&P 500.
 						</h2>
 						<h7>
 							<em>
 								Assuming an average return of 10% annually, which historically
-								is the rate with dividends reinvested
+								is the rate with dividends reinvested.
 							</em>
 						</h7>
 					</>
