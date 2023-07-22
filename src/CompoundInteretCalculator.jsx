@@ -21,9 +21,12 @@ const CompoundInterestCalculator = ({ principal }) => {
 
 	const interestValues = calculateCompoundInterest();
 
+	const lastAmount =
+		interestValues[interestValues.length - 1].amount.toFixed(2);
+
 	return (
 		<div>
-			<h2>Compound Interest Calculator</h2>
+			{/* <h2>Compound Interest Calculator</h2>
 			<table>
 				<thead>
 					<tr>
@@ -39,7 +42,8 @@ const CompoundInterestCalculator = ({ principal }) => {
 						</tr>
 					))}
 				</tbody>
-			</table>
+			</table> */}
+			
 		</div>
 	);
 };

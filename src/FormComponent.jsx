@@ -4,12 +4,17 @@ import { useState } from "react";
 
 function FormComponent({ onSubmit }) {
 	const [inputValue, setInputValue] = useState("");
+
 	function handleChange(e) {
-		setInputValue(Number(e.target.value));
+		setInputValue(e.target.value);
 	}
+
 	function handleSubmit(e) {
 		e.preventDefault();
-		onSubmit(Number(inputValue));
+		const parsedValue = parseFloat(inputValue);
+		if (!isNaN(parsedValue)) {
+			onSubmit(parsedValue);
+		}
 		setInputValue("");
 	}
 
