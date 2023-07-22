@@ -1,6 +1,7 @@
 import FormComponent from "./FormComponent";
 import { useState, useEffect } from "react";
 import ChartComponent from "./ChartComponent";
+import { Container } from "react-bootstrap";
 
 export default function App() {
 	const [price, setPrice] = useState(0);
@@ -38,6 +39,8 @@ export default function App() {
 		setInterestValues(calculatedInterest);
 	}, [price, years]);
 
+	console.log("interest values:", interestValues);
+
 	let lastAmount = interestValues[interestValues.length - 1]?.amount;
 
 	lastAmount = parseFloat(lastAmount).toLocaleString("en-US", {
@@ -46,9 +49,9 @@ export default function App() {
 	});
 
 	return (
-		<>
+		<Container className="w-75 mx-auto vh-100">
 			<div className="container pt-5">
-				<h1>True Cost</h1>
+				<h1 className="text-center mb-4">True Cost</h1>
 				<FormComponent
 					onSubmit={handlePriceChange}
 					onYearsChange={handleYearsChange}
@@ -71,7 +74,9 @@ export default function App() {
 					</>
 				)}
 			</div>
-			<div>{/* <ChartComponent chartData={interestValues} /> */}</div>
-		</>
+			<div className="mt-4">
+				<ChartComponent chartData={interestValues} />
+			</div>
+		</Container>
 	);
 }
